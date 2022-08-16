@@ -17,7 +17,9 @@ class KittensController < ApplicationController
   end
 
   # GET /kittens/1/edit
-  def edit; end
+  def edit
+    @kitten = Kitten.find(params[:id])
+  end
 
   # POST /kittens or /kittens.json
   def create
@@ -25,9 +27,11 @@ class KittensController < ApplicationController
 
     respond_to do |format|
       if @kitten.save
-        format.html { redirect_to kitten_url(@kitten), notice: 'Kitten was successfully created.' }
+        flash[:success] = 'Kitten was successfully created.'
+        format.html { redirect_to kitten_url(@kitten) }
         format.json { render :show, status: :created, location: @kitten }
       else
+        flash[:error] = @kitten.errors.messages.values.flatten
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @kitten.errors, status: :unprocessable_entity }
       end
@@ -38,7 +42,8 @@ class KittensController < ApplicationController
   def update
     respond_to do |format|
       if @kitten.update(kitten_params)
-        format.html { redirect_to kitten_url(@kitten), notice: 'Kitten was successfully updated.' }
+        flash[:success] = 'Kitten was successfully updated.'
+        format.html { redirect_to kitten_url(@kitten) }
         format.json { render :show, status: :ok, location: @kitten }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -51,8 +56,9 @@ class KittensController < ApplicationController
   def destroy
     @kitten.destroy
 
+    flash[:success] = 'Kitten was successfully destroyed.'
     respond_to do |format|
-      format.html { redirect_to kittens_url, notice: 'Kitten was successfully destroyed.' }
+      format.html { redirect_to kittens_url }
       format.json { head :no_content }
     end
   end
@@ -66,6 +72,6 @@ class KittensController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def kitten_params
-    params.fetch(:kitten, {})
+    params.require(:kitten).permit(:name, :age, :cuteness, :softness)
   end
 end

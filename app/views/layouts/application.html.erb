@@ -11,6 +11,22 @@
   </head>
 
   <body>
+    <% flash.each do |type, msg| %>
+      <% if type == 'success' %>
+        <div style="color: green">
+          <%= msg %>
+        </div>
+      <% elsif type == 'error' %>
+        <div style="color: red">
+          <% msg.each do |error_msg| %>
+            <div><%= error_msg %> </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div><%= msg %></div>
+      <% end %>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>
