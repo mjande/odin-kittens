@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class KittensController < ApplicationController
-  before_action :set_kitten, only: %i[ show edit update destroy ]
+  before_action :set_kitten, only: %i[show edit update destroy]
 
   # GET /kittens or /kittens.json
   def index
@@ -7,8 +9,7 @@ class KittensController < ApplicationController
   end
 
   # GET /kittens/1 or /kittens/1.json
-  def show
-  end
+  def show; end
 
   # GET /kittens/new
   def new
@@ -16,8 +17,7 @@ class KittensController < ApplicationController
   end
 
   # GET /kittens/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /kittens or /kittens.json
   def create
@@ -58,13 +58,14 @@ class KittensController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_kitten
-      @kitten = Kitten.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def kitten_params
-      params.fetch(:kitten, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_kitten
+    @kitten = Kitten.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def kitten_params
+    params.fetch(:kitten, {})
+  end
 end
